@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import argparse
 import base64
-import sys
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 
@@ -38,9 +37,13 @@ def image_to_bytes(image):
     return buf.tobytes()
 
 
+def point_to_vector(p):
+    return np.array([p['x'], p['y']])
+
+
 def draw_black_line(image, positions):
-    PADDING_VERTICAL_RATIO = 0.5
-    PADDING_HORIZONTAL_RATIO = 0.05
+    PADDING_VERTICAL_RATIO = 1.25
+    PADDING_HORIZONTAL_RATIO = 0.4
 
     type_to_position = {}
     for position in positions:
@@ -50,38 +53,41 @@ def draw_black_line(image, positions):
 
         type_to_position[position['type']] = p
 
-    left_top = type_to_position['LEFT_EYE_TOP_BOUNDARY']
-    left_top['x'] = type_to_position['LEFT_OF_LEFT_EYEBROW']['x']
+    left = point_to_vector(type_to_position['LEFT_EYE'])
+    right = point_to_vector(type_to_position['RIGHT_EYE'])
 
-    left_bottom = type_to_position['LEFT_EYE_BOTTOM_BOUNDARY']
-    left_bottom['x'] = left_top['x']
+    left_top = np.array(left)
+    left_bottom = np.array(left)
 
-    left_height = left_bottom['y'] - left_top['y']
-    left_top['y'] -= int(left_height * PADDING_VERTICAL_RATIO)
-    left_bottom['y'] += int(left_height * PADDING_VERTICAL_RATIO)
+    right_top = np.array(right)
+    right_bottom = np.array(right)
 
-    right_bottom = type_to_position['RIGHT_EYE_BOTTOM_BOUNDARY']
-    right_bottom['x'] = type_to_position['RIGHT_OF_RIGHT_EYEBROW']['x']
+    horizontal_direction = right - left
+    normal = np.array([horizontal_direction[1], -horizontal_direction[0]], int)
+    normal = normal / np.linalg.norm(normal)
 
-    right_top = type_to_position['RIGHT_EYE_TOP_BOUNDARY']
-    right_top['x'] = right_bottom['x']
+    # vertical
+    left_height = np.linalg.norm(point_to_vector(type_to_position['LEFT_EYE_BOTTOM_BOUNDARY']) - point_to_vector(type_to_position['LEFT_EYE_TOP_BOUNDARY']))
+    right_height = np.linalg.norm(point_to_vector(type_to_position['RIGHT_EYE_BOTTOM_BOUNDARY']) - point_to_vector(type_to_position['RIGHT_EYE_TOP_BOUNDARY']))
 
-    right_height = right_bottom['y'] - right_top['y']
-    right_top['y'] -= int(right_height * PADDING_VERTICAL_RATIO)
-    right_bottom['y'] += int(right_height * PADDING_VERTICAL_RATIO)
+    height = max(left_height, right_height)
+    left_top += np.array(height * PADDING_VERTICAL_RATIO * normal, int)
+    left_bottom -= np.array(height * PADDING_VERTICAL_RATIO * normal, int)
 
-    width = right_top['x'] - left_top['x']
-    left_top['x'] -= int(width * PADDING_HORIZONTAL_RATIO)
-    left_bottom['x'] -= int(width * PADDING_HORIZONTAL_RATIO)
+    right_top += np.array(height * PADDING_VERTICAL_RATIO * normal, int)
+    right_bottom -= np.array(height * PADDING_VERTICAL_RATIO * normal, int)
 
-    right_top['x'] += int(width * PADDING_HORIZONTAL_RATIO)
-    right_bottom['x'] += int(width * PADDING_HORIZONTAL_RATIO)
+    horizontal_pad = np.array(PADDING_HORIZONTAL_RATIO * (right - left), int)
+    left_top -= horizontal_pad
+    left_bottom -= horizontal_pad
+    right_top += horizontal_pad
+    right_bottom += horizontal_pad
 
     cv2.fillPoly(image, [np.array([
-        [left_top['x'], left_top['y']],
-        [left_bottom['x'], left_bottom['y']],
-        [right_bottom['x'], right_bottom['y']],
-        [right_top['x'], right_top['y']],
+        left_top,
+        left_bottom,
+        right_bottom,
+        right_top,
     ])], color=(0, 0, 0), lineType=cv2.CV_AA)
 
 parser = argparse.ArgumentParser()
