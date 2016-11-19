@@ -90,14 +90,16 @@ def draw_black_line(image, positions):
         right_top,
     ])], color=(0, 0, 0), lineType=cv2.CV_AA)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('image', help='a path to image')
-args = parser.parse_args()
 
-image = cv2.imread(args.image)
-data = detect_face(image, 15)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('image', help='a path to image')
+    args = parser.parse_args()
 
-for annotation in data:
-    draw_black_line(image, annotation['landmarks'])
+    image = cv2.imread(args.image)
+    data = detect_face(image, 15)
 
-print(image_to_bytes(image))
+    for annotation in data:
+        draw_black_line(image, annotation['landmarks'])
+
+    print(image_to_bytes(image))
