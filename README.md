@@ -1,4 +1,6 @@
 # mesen
+https://mesen-dot-uiu-server.appspot-preview.com/
+
 mesen uses Google Cloud Vision API to detect face landmarks.
 
 ```sh
@@ -8,6 +10,12 @@ python main.py
 
 ```sh
 curl -sL -X POST localhost:8080 -F 'image=@data/uesaka.jpg' | imgcat
+```
+
+or use as cli:
+
+```sh
+python convert.py data/pastak.jpg > result.png
 ```
 
 ## Run app on docker
