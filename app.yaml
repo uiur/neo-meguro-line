@@ -1,0 +1,5 @@
+runtime: custom
+env: flex
+
+entrypoint: gunicorn -b :$PORT main:app
+service: mesen
