@@ -22,6 +22,9 @@ def rotate_if_needed(bytes):
     }
 
     img = Image.open(io.BytesIO(bytes))
+
+    # cloud vision api doesn't accept large image
+    img.thumbnail((1600, 1600), Image.ANTIALIAS)
     new_img = img
 
     if img.format == "JPEG":
