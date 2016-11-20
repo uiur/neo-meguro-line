@@ -2,12 +2,67 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>mesen</title>
+    <title>ネオ目黒ライン NEO MEGURO LINE</title>
+    <link rel="stylesheet" href="/static/style.css" media="screen" title="no title">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-87716781-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
   </head>
   <body>
-    <form action="/" method="post" enctype='multipart/form-data'>
-      <input type="file" name="image" accept="image/*">
+    <header>
+      <h2>
+        ネオ目黒ライン NEO MEGURO LINE
+      </h2>
+
+      <p>それはあなたの目に黒い線を引く
+It draws a black line in your eyes.</p>
+    </header>
+
+    <img class="image" src="https://i.gyazo.com/cefc7f66f9a7b6a8ca406df222ee7034.png" alt="" />
+
+    <button class="choose-button" type="button" name="button" onclick=>
+      Use your own photo
+    </button>
+
+    <form class="form" action="/" method="post" enctype='multipart/form-data'>
+      <input class="form-image" type="file" name="image" accept="image/*">
       <input type="submit" />
     </form>
+
+    <footer>
+      <div class="twitter-share-button-container">
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmesen-dot-uiu-server.appspot-preview.com%2F&text=NEO%20MEGURO%20LINE"
+         class="twitter-share-button"
+         data-size="large">
+          Tweet
+        </a>
+      </div>
+
+      <div>
+        by <a href="https://twitter.com/uiureo">uiu</a>
+      </div>
+    </footer>
+
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $('.choose-button, .image').on('click', function () {
+        $('.form-image').click()
+      })
+      $('.form').on('change', function () {
+        $(this).submit()
+      })
+    </script>
+    <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
   </body>
 </html>

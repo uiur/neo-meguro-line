@@ -1,0 +1,58 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  font-size: 14px;
+  font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, 'Hiragino Kaku Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+p {
+  white-space: pre;
+}
+
+header {
+  padding: 0 20px;
+}
+
+.choose-button {
+  display: block;
+  margin: 10px auto;
+  width: 80%;
+  border-radius: 4px;
+  height: 60px;
+  font-size: 20px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #6AA05A;
+  border: 0;
+}
+
+.image {
+  display: block;
+  margin: 10px auto;
+  width: 80%;
+}
+
+.form {
+  display: none;
+}
+
+footer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.twitter-share-button-container {
+  margin: 20px;
+}
