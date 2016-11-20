@@ -4,7 +4,7 @@ from flask import Flask, request, send_file, render_template
 import cv2
 import convert
 import numpy as np
-from PIL import Image
+from PIL import Image, JpegImagePlugin
 
 app = Flask(__name__)
 
@@ -22,10 +22,15 @@ def rotate_if_needed(bytes):
     }
 
     img = Image.open(io.BytesIO(bytes))
-    exif = img._getexif()
-    orientation = exif.get(0x112, 1)
+    new_img = img
 
-    new_img = convert_image[orientation](img)
+    if img.format == "JPEG":
+        exif = img._getexif()
+        if exif:
+            orientation = exif.get(0x112, 1)
+
+            new_img = convert_image[orientation](img)
+
     return cv2.cvtColor(np.array(new_img), cv2.COLOR_BGR2RGB)
 
 
