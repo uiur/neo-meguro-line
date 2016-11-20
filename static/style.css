@@ -56,3 +56,28 @@ footer {
 .twitter-share-button-container {
   margin: 20px;
 }
+
+.fb_iframe_widget {
+  vertical-align: top;
+}
+
+@media (min-device-width: 800px) {
+  body {
+    width: 600px;
+    margin: 0 auto;
+  }
+
+  header {
+    width: 400px;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .image {
+    max-width: 400px;
+  }
+
+  .choose-button {
+    max-width: 400px;
+  }
+}
