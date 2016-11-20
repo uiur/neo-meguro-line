@@ -28,8 +28,15 @@ def detect_face(image, max_results=4):
         'requests': batch_request,
     })
     response = request.execute()
+    first_response = response['responses'][0]
+    if 'error' in first_response:
+        print(first_response['error'])
+        raise
 
-    return response['responses'][0]['faceAnnotations']
+    if 'faceAnnotations' not in first_response:
+        return []
+
+    return first_response['faceAnnotations']
 
 
 def image_to_bytes(image):

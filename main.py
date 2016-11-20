@@ -11,6 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def hello():
     if request.method == 'POST':
+        # limit is 4MB for Cloud Vision Api
         f = request.files['image']
 
         image_bytearray = np.asarray(bytearray(f.read()), dtype=np.uint8)
