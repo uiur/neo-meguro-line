@@ -59,6 +59,7 @@ footer {
 
 .fb_iframe_widget {
   vertical-align: top;
+  display: inline-block !important;
 }
 
 @media (min-device-width: 800px) {
