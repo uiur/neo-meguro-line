@@ -44,7 +44,7 @@ def hello():
         f = request.files['image']
 
         image = rotate_if_needed(f.read())
-        data = convert.detect_face(image, 15)
+        data = convert.detect_face(image, 500)
         for annotation in data:
             convert.draw_black_line(image, annotation['landmarks'])
 
