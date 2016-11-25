@@ -1,5 +1,9 @@
 runtime: custom
 env: flex
 
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 10
+
 entrypoint: gunicorn -b :$PORT main:app
 service: mesen
